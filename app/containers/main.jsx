@@ -1,40 +1,24 @@
 import React, {Component} from 'react';  
 import ReactDOM from 'react-dom';  
-import MainStore from '../stores/main-store.js';
 import * as MainAction from '../actions/main-action.js';
 import config from '../config/config.js';
-import Bar from '../components/chart/chart.jsx';
 import Header from '../components/header/header.jsx';
-import OurLeaders from './our-leaders.jsx';
-import CrimeInStates from './crime-in-states.jsx';
 import SideBar from '../components/sidebar/sidebar.jsx';
+import store from '../reducers/mainReducer.js'
+import CrimeInStates from './crime-in-states.jsx';
 
 
 export default class Main extends React.Component {
-  constructor(){
-        super();
-        this.state={
-          displayInputValue : MainStore.getState().displayInputValue,
-          data : MainStore.getState().data
-        };
-      }
-      
-  updateState(){
-    this.setState({
-      displayInputValue : MainStore.getState().displayInputValue,
-      data : MainStore.getState().data
-    })
-  }
-  componentWillMount(){
-    //MainStore.on('change',this.updateState.bind(this))
-  }
+    
   componentDidMount(){
-    //MainAction.makeAjaxRequest(config.vehecleWiseAccidents);
+    const requestObj = {
+      'url': config.crimeInState,
+      'actionType': 'LOAD_CRIME_DATA'
+    }
+
+    MainAction.makeAjaxRequest(requestObj)
   }
 
-  onChange(e){
-    MainAction.updateValue(e.target.value);
-  }
   render(){
     return(
       <div className="col-12">
@@ -44,7 +28,7 @@ export default class Main extends React.Component {
         <div className="col-10">
           <Header />
           <div className="main-container">
-            <CrimeInStates />
+            <CrimeInStates {...this.props.crimeInStateData} />
           </div>
         </div>
       </div>

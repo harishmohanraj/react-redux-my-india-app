@@ -1,12 +1,35 @@
-function spliceArray(item){
-    return [item[2],item[4],item[6],item[8],item[10]]
+// import _ from 'lodash';
+
+// const OMIT_LIST = [
+// 	"TOTAL (ALL-INDIA)",
+// 	"TOTAL (STATES)"
+// ];
+
+function sortItemInArray(list) {
+	return list[14];
 }
 
-function sortArray(list){
-    const limitList = list.data.slice(0, 65); 
-    return Array.from(limitList).map(item => spliceArray(item));
+function sortList(a, b) {
+  return sortItemInArray(b) - sortItemInArray(a)
 }
 
-export default function formatChartData(list){
-    return sortArray(list);
+function filterListByDropDownSelection(list, selectedItem) {
+	return list.filter((item) => item[1] === selectedItem && item[0] !== "TOTAL (ALL-INDIA)" && item[0] !== "TOTAL (STATES)").slice(0,10)
+}
+
+export default function formatChartData(chartDataObj, selectedItem){
+    let valueArray = [], nameArray = [];
+    const sortDataList = chartDataObj.data.sort(sortList);
+    const filteredList = filterListByDropDownSelection(sortDataList, selectedItem);
+    
+    filteredList.forEach((list) => valueArray.push(list[14]))
+    filteredList.forEach((list) => nameArray.push(list[0]))
+
+    return {
+    	itemName: nameArray,
+    	itemValue: valueArray
+    }
+
+    return barChartData;
+   
 }

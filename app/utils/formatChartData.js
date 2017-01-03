@@ -19,7 +19,7 @@ function filterListByDropDownSelection(list, selectedItem) {
 
 export default function formatChartData(chartDataObj, selectedItem){
     let valueArray = [], nameArray = [];
-    const sortDataList = chartDataObj.data.sort(sortList);
+    const sortDataList = chartDataObj.data.data.sort(sortList);
     const filteredList = filterListByDropDownSelection(sortDataList, selectedItem);
     
     filteredList.forEach((list) => valueArray.push(list[14]))

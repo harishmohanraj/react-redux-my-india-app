@@ -17,10 +17,15 @@ function myIndiaApp(state = {}, action) {
 	switch (action.type) {
 	  case 'LOAD_CRIME_DATA':
 	    return {
+	    	...state,
 	    	crimeInStateData: action.value
 	    }
-	  case 'DECREMENT':
-	    return state - 1
+	  case 'ON_FILTER_CHANGE':
+	    return {
+	    	...state,
+	    	crimeInStateFilter: action.value
+	    }
+
 	  default:
 	    return state
 	}

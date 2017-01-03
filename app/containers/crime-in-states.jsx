@@ -8,17 +8,15 @@ export default class CrimeInStates extends React.Component{
     
     renderChart(crimesDataObj, selectedItem){
         return crimesDataObj ? <Chart dataList={FormatChartData(crimesDataObj, selectedItem)}/> : <div className="spinner"></div>;
-        //return crimesDataList ? <Chart dataList={crimesDataList}/> : <div className="spinner"></div>;
     }
 
     onChange(e) {
-        //console.info(e.target.value)
-        //selectedItem = e.target.value;
+        this.props.onChange(e.target.value);
     }
     
     render(){
-        let crimesDataObj = this.props.data;
-        let selectedItem = "RAPE (SECTION 376 IPC)";
+        let crimesDataObj = this.props.chartObj;
+        let selectedItem = this.props.filter || "RAPE (SECTION 376 IPC)";
         return(
             <div className="col-12">
                 <h1>Crime in States</h1>

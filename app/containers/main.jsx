@@ -19,6 +19,13 @@ export default class Main extends React.Component {
     MainAction.makeAjaxRequest(requestObj)
   }
 
+  onChange(value) {
+    store.dispatch({
+      type: 'ON_FILTER_CHANGE',
+      value: value
+    })
+  }
+
   render(){
     return(
       <div className="col-12">
@@ -28,7 +35,11 @@ export default class Main extends React.Component {
         <div className="col-10">
           <Header />
           <div className="main-container">
-            <CrimeInStates {...this.props.crimeInStateData} />
+            <CrimeInStates 
+              chartObj = {this.props.crimeInStateData} 
+              filter = {this.props.crimeInStateFilter}
+              onChange = {this.onChange.bind(this)}
+            />
           </div>
         </div>
       </div>

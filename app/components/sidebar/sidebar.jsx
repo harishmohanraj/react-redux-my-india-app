@@ -16,7 +16,7 @@ export default class SideBar extends React.Component{
     }
 
     returnListItem(list,i){
-        return <li key={i}><a href="#">{list.name}</a></li>
+        return <li key={i}><a href={list.routeName}>{list.name}</a></li>
     }
 
     render(){

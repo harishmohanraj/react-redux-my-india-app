@@ -1,35 +1,29 @@
-export const REQUEST_POSTS = 'REQUEST_POSTS'
-export const RECEIVE_POSTS = 'RECEIVE_POSTS'
-export const SELECT_REDDIT = 'SELECT_REDDIT'
-export const INVALIDATE_REDDIT = 'INVALIDATE_REDDIT'
+export const REQUEST_DATA = 'REQUEST_DATA'
+export const RECEIVE_DATA = 'RECEIVE_DATA'
+export const SELECTED_FILTER = 'SELECTED_FILTER'
 
 export const selectReddit = reddit => ({
-  type: SELECT_REDDIT,
+  type: SELECTED_FILTER,
   reddit
 })
 
-export const invalidateReddit = reddit => ({
-  type: INVALIDATE_REDDIT,
+export const requestData = reddit => ({
+  type: REQUEST_DATA,
   reddit
 })
 
-export const requestPosts = reddit => ({
-  type: REQUEST_POSTS,
-  reddit
-})
-
-export const receivePosts = (reddit, json) => ({
-  type: RECEIVE_POSTS,
+export const receiveData = (reddit, json) => ({
+  type: RECEIVE_DATA,
   reddit,
   posts: json.data.children.map(child => child.data),
   receivedAt: Date.now()
 })
 
 const fetchPosts = reddit => dispatch => {
-  dispatch(requestPosts(reddit))
+  dispatch(requestData(reddit))
   return fetch(`https://www.reddit.com/r/${reddit}.json`)
     .then(response => response.json())
-    .then(json => dispatch(receivePosts(reddit, json)))
+    .then(json => dispatch(receiveData(reddit, json)))
 }
 
 const shouldFetchPosts = (state, reddit) => {

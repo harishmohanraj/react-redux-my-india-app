@@ -4,53 +4,44 @@ import {
   REQUEST_DATA, RECEIVE_DATA
 } from '../actions'
 
-const selectedReddit = (state = 'reactjs', action) => {
+const selectedAPI = (state = 'crimeInStates', action) => {
   switch (action.type) {
     case SELECTED_FILTER:
-      return action.reddit
+      return action.selectedAPI
     default:
       return state
   }
 }
 
-const posts = (state = {
+const changeStatusFlag = (state = {
   isFetching: false,
-  didInvalidate: false,
-  items: []
+  data: []
 }, action) => {
   switch (action.type) {
-    case INVALIDATE_REDDIT:
-      return {
-        ...state,
-        didInvalidate: true
-      }
     case REQUEST_DATA:
       return {
         ...state,
-        isFetching: true,
-        didInvalidate: false
+        isFetching: true
       }
     case RECEIVE_DATA:
       return {
         ...state,
         isFetching: false,
-        didInvalidate: false,
-        items: action.posts,
-        lastUpdated: action.receivedAt
+        data: action.data
       }
     default:
       return state
   }
 }
 
-const postsByReddit = (state = { }, action) => {
+const myIndiaReport = (state = { }, action) => {
   switch (action.type) {
     case INVALIDATE_REDDIT:
     case RECEIVE_DATA:
     case REQUEST_DATA:
       return {
         ...state,
-        [action.reddit]: posts(state[action.reddit], action)
+        [action.selectedAPI]: changeStatusFlag(state[action.selectedAPI], action)
       }
     default:
       return state
@@ -58,8 +49,8 @@ const postsByReddit = (state = { }, action) => {
 }
 
 const rootReducer = combineReducers({
-  postsByReddit,
-  selectedReddit
+  myIndiaReport,
+  selectedAPI
 })
 
 export default rootReducer

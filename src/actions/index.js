@@ -1,44 +1,32 @@
+import config from '../config/config.js';
+
 export const REQUEST_DATA = 'REQUEST_DATA'
 export const RECEIVE_DATA = 'RECEIVE_DATA'
 export const SELECTED_FILTER = 'SELECTED_FILTER'
 
-export const selectReddit = reddit => ({
+export const selectFilter = selectedAPI => ({
   type: SELECTED_FILTER,
-  reddit
+  selectedAPI
 })
 
-export const requestData = reddit => ({
+export const requestData = selectedAPI => ({
   type: REQUEST_DATA,
-  reddit
+  selectedAPI
 })
 
-export const receiveData = (reddit, json) => ({
+export const receiveData = (selectedAPI, json) => ({
   type: RECEIVE_DATA,
-  reddit,
-  posts: json.data.children.map(child => child.data),
-  receivedAt: Date.now()
+  selectedAPI,
+  data: json.data
 })
 
-const fetchPosts = reddit => dispatch => {
-  dispatch(requestData(reddit))
-  return fetch(`https://www.reddit.com/r/${reddit}.json`)
+const fetchPosts = selectedAPI => dispatch => {
+  dispatch(requestData(selectedAPI))
+  return fetch(config.crimeInState)
     .then(response => response.json())
-    .then(json => dispatch(receiveData(reddit, json)))
+    .then(json => dispatch(receiveData(selectedAPI, json)))
 }
 
-const shouldFetchPosts = (state, reddit) => {
-  const posts = state.postsByReddit[reddit]
-  if (!posts) {
-    return true
-  }
-  if (posts.isFetching) {
-    return false
-  }
-  return posts.didInvalidate
-}
-
-export const fetchPostsIfNeeded = reddit => (dispatch, getState) => {
-  if (shouldFetchPosts(getState(), reddit)) {
-    return dispatch(fetchPosts(reddit))
-  }
+export const fetchData = selectedAPI => (dispatch, getState) => {
+    return dispatch(fetchPosts(selectedAPI))
 }

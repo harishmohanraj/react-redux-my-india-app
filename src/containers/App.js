@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { selectFilter, fetchData } from '../actions';
+import formatChartData from '../util/formatChartData.js';
 
 
 class App extends Component {
@@ -29,6 +30,7 @@ class App extends Component {
 
   render() {
     const { selectedAPI, data, isFetching } = this.props;
+    const chartData = data.length && formatChartData(data);
     return (
       <div>
         
